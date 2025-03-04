@@ -105,7 +105,7 @@ final class CountryController extends AbstractController
             $response = $this->buildErrorResponse(ex: $ex);
             $response->setStatusCode(code: 404);
             return $response;
-        } catch (DuplicatedCountryException $ex) {
+        } catch (DuplicateCountryException $ex) {
             $response = $this->buildErrorResponse(ex: $ex);
             $response->setStatusCode(code: 409);
             return $response;

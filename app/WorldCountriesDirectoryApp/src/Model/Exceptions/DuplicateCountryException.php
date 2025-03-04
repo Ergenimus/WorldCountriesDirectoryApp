@@ -10,7 +10,7 @@ class DuplicateCountryException extends Exception {
 
     // переопределение конструктора исключения
     public function __construct(string $duplicatedCode, Throwable $previous = null) {
-        $exceptionMessage = "country code '". $duplicatedCode ."' is duplicated";
+        $exceptionMessage = "Страна со значением '". $duplicatedCode ."' уже существует.";
         // вызов конструктора базового класса исключения
         parent::__construct(
             message: $exceptionMessage, 

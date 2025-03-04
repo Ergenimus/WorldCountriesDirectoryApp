@@ -54,11 +54,8 @@ class CountryScenarios {
         // Вспомогательная функция для проверки заполненности и отрицательных значений
         $this->checkCountryDetails($country);
     
-        // Проверка уникальности кода
-        $this->checkUniqueCountryCode($country);
-
         // Проверка уникальности названий 
-        $this->checkUniqueCountryNames($country);
+        $this->checkUniqueCountry($country);
 
         // если все ок, то сохранить объект страны в БД
         $this->storage->store(country: $country);
@@ -79,9 +76,7 @@ class CountryScenarios {
         $this->checkCountryCodes($country);
 
         //проверяем уникальность (чтобы не дублировать страну)
-        $this->checkUniqueCountryCode($country);
-
-        $this->checkUniqueCountryNames($country);
+        $this->checkUniqueCountry($country);
 
         //если всё ок - редактируем
         $this->storage->edit(code: $code, country: $country);
@@ -94,7 +89,7 @@ class CountryScenarios {
     public function Delete(string $code): void {
         // выполнить проверку корректности кода
         if (!$this->validateCode(code: $code)) {
-            throw new InvalidСountryCodeException(
+            throw new InvalidCountryCodeException(
                 invalidCode: $code, 
                 message: 'Валидация провалилась'
             );
@@ -152,22 +147,8 @@ class CountryScenarios {
             );
         }
     }
-    
-    private function checkUniqueCountryCode(Country $country): void {
-        $codesToCheck = [
-            $country->isoAlpha2 => 'isoAlpha2',
-            $country->isoAlpha3 => 'isoAlpha3',
-            $country->isoNumeric => 'isoNumeric'
-        ];
-        
-        foreach ($codesToCheck as $code => $field) {
-            if ($this->storage->get(code: $code) != null) {
-                throw new DuplicateCountryException(duplicatedCode: $code);
-            }
-        }
-    }
 
-    private function checkUniqueCountryNames(Country $country): void {
+    private function checkUniqueCountry(Country $country): void {
         // Получаем все существующие страны
         $existingCountries = $this->storage->getAll(); 
 
@@ -181,6 +162,24 @@ class CountryScenarios {
             if ($existingCountry->fullName === $country->fullName) {
                 throw new DuplicateCountryException(
                     duplicatedCode: $country->fullName
+                );
+            }
+
+            if ($existingCountry->isoAlpha2 === $country->isoAlpha2) {
+                throw new DuplicateCountryException(
+                    duplicatedCode: $country->isoAlpha2
+                );
+            }
+
+            if ($existingCountry->isoAlpha3 === $country->isoAlpha3) {
+                throw new DuplicateCountryException(
+                    duplicatedCode: $country->isoAlpha3
+                );
+            }
+
+            if ($existingCountry->isoNumeric === $country->isoNumeric) {
+                throw new DuplicateCountryException(
+                    duplicatedCode: $country->isoNumeric
                 );
             }
         }

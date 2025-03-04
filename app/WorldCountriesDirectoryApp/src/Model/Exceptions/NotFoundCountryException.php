@@ -10,7 +10,7 @@ class NotFoundCountryException extends Exception {
 
     // переопределение конструктора исключения
     public function __construct($notFoundCode, Throwable $previous = null) {
-        $exceptionMessage = "country '". $notFoundCode ."' not found";
+        $exceptionMessage = "Страна с кодом '". $notFoundCode ."' не найдена.";
         // вызов конструктора базового класса исключения
         parent::__construct(
             message: $exceptionMessage, 

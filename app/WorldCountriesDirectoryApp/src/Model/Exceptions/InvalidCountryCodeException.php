@@ -10,7 +10,7 @@ class InvalidCountryCodeException extends Exception {
 
     // переопределение конструктора исключения
     public function __construct($invalidCode, $message, Throwable $previous = null) {
-        $exceptionMessage = "country '". $invalidCode ."' is invalid: ".$message;
+        $exceptionMessage = "Страна со значением '". $invalidCode ."' не валидна: ".$message;
         // вызов конструктора базового класса исключения
         parent::__construct(
             message: $exceptionMessage, 
